@@ -6,12 +6,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app4funbr.bank.R
-import com.app4funbr.bank.model.Statment
+import com.app4funbr.bank.model.Statement
 
-class StatementAdapter(val list: List<Statment>): RecyclerView.Adapter<StatementAdapter.ViewHolder>() {
+class StatementAdapter(val list: ArrayList<Statement>) :
+    RecyclerView.Adapter<StatementAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_statement, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_statement, parent, false)
         return ViewHolder(view)
     }
 
@@ -27,7 +29,13 @@ class StatementAdapter(val list: List<Statment>): RecyclerView.Adapter<Statement
         holder.value.text = "R$ ${statment.value}"
     }
 
-    class ViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    fun updateStatementList(newList: List<Statement>) {
+        list.clear()
+        list.addAll(newList)
+        notifyDataSetChanged()
+    }
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title = view.findViewById<TextView>(R.id.statement_type)
         val desc = view.findViewById<TextView>(R.id.text_description)
         val date = view.findViewById<TextView>(R.id.text_date)

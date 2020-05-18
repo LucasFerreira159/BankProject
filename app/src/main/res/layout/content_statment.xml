@@ -8,20 +8,49 @@
     android:orientation="vertical"
     tools:showIn="@layout/fragment_statement">
 
-    <TextView
-        android:layout_marginTop="15dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="17sp"
-        android:textColor="#485465"
-        android:text="Recentes"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="13dp"
-        android:id="@+id/recycler_view"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:itemCount="5"
-        tools:listitem="@layout/item_statement"/>
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Recentes"
+                android:visibility="gone"
+                android:id="@+id/text_label_recent"
+                android:textColor="#485465"
+                android:textSize="17sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="13dp"
+                tools:itemCount="5"
+                tools:listitem="@layout/item_statement" />
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Falha ao carregar dados"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:id="@+id/text_recycler_error"
+            android:visibility="gone"/>
+    </FrameLayout>
 
 </LinearLayout>
