@@ -17,5 +17,11 @@
     <fragment
         android:id="@+id/statment"
         android:name="com.app4funbr.bank.view.fragments.StatementFragment"
-        android:label="Extrato" />
+        android:label="Extrato">
+
+        <argument
+            android:name="accountArg"
+            app:argType="com.app4funbr.bank.model.Account"/>
+
+    </fragment>
 </navigation>

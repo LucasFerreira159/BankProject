@@ -9,14 +9,18 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app4funbr.bank.R
+import com.app4funbr.bank.model.Account
+import com.app4funbr.bank.model.AccountRequest
 import com.app4funbr.bank.view.adapter.StatementAdapter
 import com.app4funbr.bank.viewmodel.StatementViewModel
 import kotlinx.android.synthetic.main.content_statment.*
+import kotlinx.android.synthetic.main.fragment_statement.*
 
 class StatementFragment : Fragment() {
 
     private lateinit var viewModel: StatementViewModel
     private var adapterStatement = StatementAdapter(arrayListOf())
+    private lateinit var currentAccount: Account
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,6 +33,12 @@ class StatementFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        arguments?.let {
+            currentAccount = StatementFragmentArgs.fromBundle(it).accountArg
+        }
+
+        setupHeader()
+
         viewModel = ViewModelProviders.of(this).get(StatementViewModel::class.java)
         viewModel.fetchStatement()
 
@@ -38,6 +48,14 @@ class StatementFragment : Fragment() {
         }
 
         observeViewModel()
+    }
+
+    private fun setupHeader() {
+        if (::currentAccount.isInitialized) {
+            text_user?.text = currentAccount.name
+            text_account_number?.text = currentAccount.bankAccount
+            text_amount?.text = "R$ ${currentAccount.balance}"
+        }
     }
 
     private fun observeViewModel() {

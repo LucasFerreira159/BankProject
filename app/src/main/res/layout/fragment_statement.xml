@@ -44,10 +44,11 @@
                 app:layout_collapseParallaxMultiplier="0.75">
 
                 <TextView
+                    android:id="@+id/text_user"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="Lucas Ferreira"
+                    tools:text="Lucas Ferreira"
                     android:textSize="25sp" />
 
                 <TextView
@@ -58,10 +59,11 @@
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/text_account_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:text="1092 / 12.312666-6"
+                    tools:text="1092 / 12.312666-6"
                     android:textSize="25sp" />
 
                 <TextView
@@ -72,10 +74,11 @@
                     android:textSize="12sp" />
 
                 <TextView
+                    android:id="@+id/text_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
-                    android:text="R$ 1.000,00"
+                    tools:text="R$ 1.000,00"
                     android:textSize="25sp" />
 
             </LinearLayout>
