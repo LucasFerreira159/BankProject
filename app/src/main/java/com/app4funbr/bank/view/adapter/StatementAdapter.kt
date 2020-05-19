@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.app4funbr.bank.R
+import com.app4funbr.bank.infrastructure.extensions.formatToCurreny
 import com.app4funbr.bank.model.Statement
 
 class StatementAdapter(val list: ArrayList<Statement>) :
@@ -25,8 +26,8 @@ class StatementAdapter(val list: ArrayList<Statement>) :
         val statment = list[position]
         holder.title.text = statment.title
         holder.desc.text = statment.desc
+        holder.value.formatToCurreny(statment.value)
         holder.date.text = statment.date
-        holder.value.text = "R$ ${statment.value}"
     }
 
     fun updateStatementList(newList: List<Statement>) {

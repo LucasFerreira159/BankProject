@@ -9,8 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app4funbr.bank.R
+import com.app4funbr.bank.infrastructure.extensions.formatToCurreny
 import com.app4funbr.bank.model.Account
-import com.app4funbr.bank.model.AccountRequest
 import com.app4funbr.bank.view.adapter.StatementAdapter
 import com.app4funbr.bank.viewmodel.StatementViewModel
 import kotlinx.android.synthetic.main.content_statment.*
@@ -54,7 +54,7 @@ class StatementFragment : Fragment() {
         if (::currentAccount.isInitialized) {
             text_user?.text = currentAccount.name
             text_account_number?.text = currentAccount.bankAccount
-            text_amount?.text = "R$ ${currentAccount.balance}"
+            text_amount?.formatToCurreny(currentAccount.balance)
         }
     }
 
