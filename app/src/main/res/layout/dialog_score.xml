@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="25dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Atenção, a força da sua senha não é suficitente!" />
+
+    <TextView
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Níveis de Score da senha:" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0 - Muito Fraco \n1 - Fraco \n2 - Boa \n3 - Forte \n4 - Muito Forte" />
+
+    <TextView
+        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dicas: \nComprimento Mínimo 10 caracteres \nPelo menos um caracter (AZ)
+         \nPelo menos um caractere minúsculo (az)
+         \nPelo menos um dígito (0 - 9)
+         \nPelo menos um caractere especial" />
+</LinearLayout>

@@ -12,12 +12,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.app4funbr.bank.R
+import com.app4funbr.bank.infrastructure.extensions.showPwdStrength
 import com.app4funbr.bank.infrastructure.extensions.showSnackBar
 import com.app4funbr.bank.infrastructure.util.CPFUtil
-import com.app4funbr.bank.infrastructure.util.Mask
+import com.app4funbr.bank.infrastructure.util.EditTextUtils
+import com.app4funbr.bank.infrastructure.util.Utils
 import com.app4funbr.bank.model.AccountRequest
 import com.app4funbr.bank.viewmodel.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_login.*
+
 
 class LoginFragment : Fragment() {
 
@@ -64,7 +67,7 @@ class LoginFragment : Fragment() {
             R.id.rb_cpf -> {
                 currentOption = "cpf"
                 edit_user?.inputType = InputType.TYPE_CLASS_NUMBER
-                edit_user?.addTextChangedListener(Mask.mask("###.###.###-##", edit_user))
+                edit_user?.addTextChangedListener(EditTextUtils.mask("###.###.###-##", edit_user))
             }
         }
     }
@@ -74,19 +77,24 @@ class LoginFragment : Fragment() {
         val pwd = edit_pwd.text.toString()
 
         if (!user.isNullOrEmpty() && !pwd.isNullOrEmpty()) {
-
-            val request = AccountRequest(user, pwd)
-            // Verifica se for o tipo CPF selecionado
-            if (currentOption.equals("cpf")) {
-                val isValid = CPFUtil.myValidateCPF(user)
-                //Verifica se o CPF é válido
-                if (isValid) {
-                    viewModel.doLogin(request)
-                } else {
-                    showSnackBar("Digite um cpf válido")
-                }
+            //Verifica a força da senha, se for menor que 4, exibe um aviso com dicas de senha
+            val strength = Utils.getStregthPwd(pwd)
+            if (!strength.equals("4")) {
+                showPwdStrength(requireContext(), strength)
             } else {
-                viewModel.doLogin(request)
+                val request = AccountRequest(user, pwd)
+                // Verifica se for o tipo CPF selecionado
+                if (currentOption.equals("cpf")) {
+                    val isValid = CPFUtil.myValidateCPF(user)
+                    //Verifica se o CPF é válido
+                    if (isValid) {
+                        viewModel.doLogin(request)
+                    } else {
+                        showSnackBar("Digite um cpf válido")
+                    }
+                } else {
+                    viewModel.doLogin(request)
+                }
             }
         } else {
             showSnackBar("Preencha todos os campos")
