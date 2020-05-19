@@ -2,6 +2,7 @@ package com.app4funbr.bank.view.fragments
 
 import android.app.ProgressDialog
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,15 +12,19 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.app4funbr.bank.R
+import com.app4funbr.bank.infrastructure.extensions.showSnackBar
+import com.app4funbr.bank.infrastructure.util.CPFUtil
+import com.app4funbr.bank.infrastructure.util.Mask
 import com.app4funbr.bank.model.AccountRequest
 import com.app4funbr.bank.viewmodel.LoginViewModel
-import kotlinx.android.synthetic.main.content_statment.*
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : Fragment() {
 
     private lateinit var viewModel: LoginViewModel
     private lateinit var pDialog: ProgressDialog
+
+    private var currentOption = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,8 +41,31 @@ class LoginFragment : Fragment() {
         observeViewModel(view)
 
         button_login?.setOnClickListener {
-            /**/
             doLogin()
+        }
+
+        radio_group?.setOnCheckedChangeListener { group, checkedId ->
+            text_label_auth_method?.visibility = View.GONE
+            radio_group?.visibility = View.GONE
+            linear_fields?.visibility = View.VISIBLE
+            button_login?.visibility = View.VISIBLE
+            setupUserField()
+        }
+    }
+
+    private fun setupUserField() {
+        val selectedId = radio_group.checkedRadioButtonId
+        when (selectedId) {
+            R.id.rb_user -> {
+                currentOption = "email"
+                edit_user?.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+            }
+
+            R.id.rb_cpf -> {
+                currentOption = "cpf"
+                edit_user?.inputType = InputType.TYPE_CLASS_NUMBER
+                edit_user?.addTextChangedListener(Mask.mask("###.###.###-##", edit_user))
+            }
         }
     }
 
@@ -46,14 +74,22 @@ class LoginFragment : Fragment() {
         val pwd = edit_pwd.text.toString()
 
         if (!user.isNullOrEmpty() && !pwd.isNullOrEmpty()) {
+
             val request = AccountRequest(user, pwd)
-            viewModel.doLogin(request)
+            // Verifica se for o tipo CPF selecionado
+            if (currentOption.equals("cpf")) {
+                val isValid = CPFUtil.myValidateCPF(user)
+                //Verifica se o CPF é válido
+                if (isValid) {
+                    viewModel.doLogin(request)
+                } else {
+                    showSnackBar("Digite um cpf válido")
+                }
+            } else {
+                viewModel.doLogin(request)
+            }
         } else {
-            Toast.makeText(
-                requireContext(),
-                "Preencha todos os campos",
-                Toast.LENGTH_SHORT
-            ).show()
+            showSnackBar("Preencha todos os campos")
         }
     }
 
